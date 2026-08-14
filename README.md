@@ -1,5 +1,5 @@
 # Serverless Image Processing Pipeline
-
+<img width="1932" height="542" alt="Serverless Image Processing Pipeline with S3, SQS   Lambda" src="https://github.com/user-attachments/assets/42c57c26-b152-4b23-855c-514233247746" />
 Upload an image via a pre-signed URL → it's automatically validated, resized,
 and watermarked → the thumbnail and metadata are stored → a notification is
 sent and the result is served back over HTTPS.
