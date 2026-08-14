@@ -1,0 +1,34 @@
+{
+  "Comment": "Image processing workflow — invokes the resize/watermark Lambda with retry and error handling. Manually-invoked demo, not the automatic upload trigger (that path is SQS -> Lambda directly).",
+  "StartAt": "ProcessImage",
+  "States": {
+    "ProcessImage": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:ACCOUNT_ID:function:process-image",
+      "Retry": [
+        {
+          "ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "NotifyFailure"
+        }
+      ],
+      "Next": "Success"
+    },
+    "NotifyFailure": {
+      "Type": "Fail",
+      "Cause": "Image processing failed after retries",
+      "Error": "ProcessingError"
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+
+# Lambda layer build artifacts
+lambda/pillow-layer/
+*.zip
+
+# IaC (if added later)
+.aws-sam/
+cdk.out/
+samconfig.toml
+
+# OS/editor
+.DS_Store
+.vscode/
+*.swp
+
+# Secrets — never commit
+.env
+*.pem
