@@ -114,7 +114,9 @@ several resources reference each other's ARNs):
 
 ## Known Limitations
 
-- **CloudFront could not be deployed.** `cloudfront:CreateOriginAccessControl`
+- **CloudFront could not be deployed.**
+<img width="1397" height="732" alt="Screenshot 2026-08-14 215047" src="https://github.com/user-attachments/assets/1cd82f26-a7d9-486c-9d76-656352494094" />
+  `cloudfront:CreateOriginAccessControl`
   and `cloudfront:CreateDistribution` are both restricted in this AWS
   Academy Learner Lab's IAM policy. The architecture includes CloudFront as
   the intended production delivery/caching layer; in this environment,
