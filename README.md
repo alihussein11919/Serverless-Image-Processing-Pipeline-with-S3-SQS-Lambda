@@ -30,7 +30,7 @@ bucket**, writes metadata to **DynamoDB**, and publishes a result to an
 queue (DLQ)** for inspection rather than being silently dropped. A separate
 **AWS Step Functions** state machine wraps the same processing Lambda with
 retry/catch logic, as a manually-invoked demonstration of orchestration —
-it is not in the automatic upload path.
+it is not in the automatic upload path. The Image are then Cached to **Cloudfront** for quick, low-latency delivery.
 
 ## Services & Design Decisions
 
