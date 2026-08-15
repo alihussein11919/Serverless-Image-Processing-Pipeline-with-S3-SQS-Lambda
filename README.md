@@ -18,8 +18,6 @@ and every component scales to zero when idle.
 
 ## Architecture Diagram
 
-![Architecture Diagram](diagrams/architecture.png)
-
 **Flow:** A client requests a pre-signed upload URL from **API Gateway**,
 which invokes a **Lambda** function to generate it. The client uploads
 directly to the **S3 source bucket** using that URL. The upload triggers an
