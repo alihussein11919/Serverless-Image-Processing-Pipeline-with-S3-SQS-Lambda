@@ -97,21 +97,6 @@ several resources reference each other's ARNs):
   Known Limitations — this substitutes for CloudFront); lifecycle rule
   transitioning `thumbnails/*` to Standard-IA after 60 days.
 
-## Testing / Validation
-
-- **Isolated Lambda test event** — synthetic SQS-shaped payload run
-  directly against the processing Lambda via the console's Test tab.
-- **Real end-to-end trigger** — uploaded a file directly to the source
-  bucket via the console; confirmed via CloudWatch Logs that the SQS
-  trigger fired automatically with no manual invocation, and that the
-  thumbnail, DynamoDB row, and SNS notification all appeared.
-- **Full public-API path** — called the deployed API Gateway endpoint to
-  request a pre-signed URL, uploaded via that URL from a local shell, and
-  confirmed the same automatic pipeline fired from that entry point too.
-- **DLQ redrive path** — deliberately triggered a processing failure (see
-  Known Limitations/bugs below); confirmed the message retried 3 times
-  and landed in the DLQ rather than being lost or retried indefinitely.
-
 ## Known Limitations
 
 - **CloudFront could not be deployed.**
@@ -139,25 +124,5 @@ several resources reference each other's ARNs):
   API key (Usage Plans) or a Cognito authorizer would be the next step for
   a production deployment.
 
-## Notable bugs found during testing
 
-- A DynamoDB `ValidationException` ("Missing the key imageid in the item")
-  turned out to be a casing mismatch — the table's partition key is
-  `imageid` (lowercase) but the code originally wrote `imageId`. DynamoDB
-  attribute names are case-sensitive; this is fixed in the code in this repo.
-- An SQS `KeyError: 'Records'` occurred when testing via Step Functions
-  with a plain S3-event-shaped input — the processing Lambda expects the
-  *SQS-wrapped* shape (`event["Records"][n]["body"]` as a JSON string),
-  since that's what it receives from its real trigger.
 
-## Possible Extensions
-
-- Split the single processing Lambda into discrete Step Functions states
-  (validate / resize / watermark / store) with S3 round-trips between
-  them, to make Step Functions part of the live automatic path rather than
-  a separate demo.
-- Add API Gateway authentication (API key or Cognito).
-- Add on-the-fly resize parameters (`?width=400&format=webp`) rather than
-  only serving pre-generated thumbnails.
-- Migrate to IaC (SAM/CDK) for reproducible deployment outside the lab's
-  IAM constraints.
