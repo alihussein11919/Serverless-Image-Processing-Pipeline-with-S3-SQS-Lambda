@@ -115,29 +115,4 @@ several resources reference each other's ARNs):
   `cloudfront:CreateOriginAccessControl` and `cloudfront:CreateDistribution` are both restricted in this AWS Academy Learner Lab's IAM policy.
 
   The architecture includes CloudFront as
-  the intended production delivery/caching layer; in this environment,
-  thumbnails are served via a scoped public-read S3 bucket policy instead.
-  In production, CloudFront + Origin Access Control (private bucket, no
-  direct public access) would be the correct approach.
-  
-- **`iam:CreateRole` is restricted.** All Lambda and Step Functions
-  execution roles use the lab-provisioned `LabRole` rather than
-  least-privilege custom policies. In production, each function would get
-  a narrowly-scoped role (e.g. the processing Lambda would only get
-  `s3:GetObject` on the source bucket and `s3:PutObject` on the
-  destination bucket, not broad access).
-  
-- **SNS email delivery** was intermittently auto-unsubscribed, most likely
-  due to email security systems pre-fetching (and thereby triggering) the
-  one-click unsubscribe link in AWS's confirmation/notification emails.
-  `sns.publish()` calls are confirmed successful in CloudWatch Logs
-  regardless of subscription state.
-
-  
-- **The pre-signed URL API Gateway endpoint has no authentication.** Any
-  caller who has the endpoint URL can request an upload URL. Adding an
-  API key (Usage Plans) or a Cognito authorizer would be the next step for
-  a production deployment.
-
-
-
+  the intended production delivery/caching layer; 
