@@ -18,8 +18,9 @@ and every component scales to zero when idle.
 
 ## Architecture Diagram
 <img width="1932" height="542" alt="Serverless Image Processing Pipeline with S3, SQS   Lambda" src="https://github.com/user-attachments/assets/42c57c26-b152-4b23-855c-514233247746" />
+
 A client requests a pre-signed upload URL from API Gateway,
-which invokes a **Lambda** function to generate it. 
+which invokes a Lambda function to generate it. 
 
 The client uploads
 directly to the **S3 source bucket** using that URL. The upload triggers an
