@@ -43,6 +43,7 @@ it is not in the automatic upload path. The Image are then Cached to **Cloudfron
 | **Lambda (process) + Layer** | Validates, resizes, watermarks | Pillow is packaged as a Layer, separate from function code, so it can be reused/updated independently |
 | **DynamoDB** | Image metadata store | Serverless, on-demand billing, no capacity planning needed; no VPC required since it's a managed public-endpoint service reached via IAM |
 | **SNS** | Job completion/failure notification | Simple pub/sub fan-out for alerting |
+<img width="1460" height="528" alt="Screenshot 2026-08-14 232700" src="https://github.com/user-attachments/assets/31204035-e0eb-4082-9732-c110199505da" />
 | **Step Functions** | Orchestration demo with retry/catch | Shows visual execution history and structured error handling around the same Lambda |
 | **CloudFront** | *Designed, not deployed* — see Known Limitations | Intended as the production caching/delivery layer |
 
