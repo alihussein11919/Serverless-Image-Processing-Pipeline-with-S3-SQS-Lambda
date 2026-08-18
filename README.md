@@ -19,16 +19,22 @@ and every component scales to zero when idle.
 ## Architecture Diagram
 <img width="1932" height="542" alt="Serverless Image Processing Pipeline with S3, SQS   Lambda" src="https://github.com/user-attachments/assets/42c57c26-b152-4b23-855c-514233247746" />
 **Flow:** A client requests a pre-signed upload URL from **API Gateway**,
-which invokes a **Lambda** function to generate it. The client uploads
+which invokes a **Lambda** function to generate it. 
+
+The client uploads
 directly to the **S3 source bucket** using that URL. The upload triggers an
 **S3 event notification** to an **SQS queue**, which buffers the event and
-decouples ingestion from processing. A second **Lambda** function (with a
+decouples ingestion from processing. 
+
+A second **Lambda** function (with a
 **Lambda Layer** bundling Pillow) polls the queue, validates the image,
 resizes and watermarks it, uploads the thumbnail to the **S3 destination
 bucket**, writes metadata to **DynamoDB**, and publishes a result to an
-**SNS** topic. Failed messages that exhaust retries land in a **dead-letter
-queue (DLQ)** for inspection rather than being silently dropped. A separate
-**AWS Step Functions** state machine wraps the same processing Lambda with
+**SNS** topic. 
+
+Failed messages that exhaust retries land in a **dead-letter
+queue (DLQ)** for inspection rather than being silently dropped. 
+A separate **AWS Step Functions** state machine wraps the same processing Lambda with
 retry/catch logic, as a manually-invoked demonstration of orchestration —
 it is not in the automatic upload path. The Image are then Cached to **Cloudfront** for quick, low-latency delivery.
 
