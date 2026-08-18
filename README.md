@@ -52,21 +52,18 @@ it is not in the automatic upload path. The Image are then Cached to **Cloudfron
 | **SNS** | Job completion/failure notification | Simple pub/sub fan-out for alerting |
 <img width="1460" height="528" alt="Screenshot 2026-08-14 232700" src="https://github.com/user-attachments/assets/31204035-e0eb-4082-9732-c110199505da" />
 
-| **Step Functions** | Orchestration demo with retry/catch | Shows visual execution history and structured error handling around the same Lambda |
+| **Step Functions** | Orchestration demo with retry/catch | Shows visual execution history and structured error handling around the same Lambda
 
 
 | **CloudFront** | *Designed, not deployed* — see Known Limitations | Intended as the production caching/delivery layer |
 
 **No VPC anywhere in this design.** 
 
-Every service used (S3, SQS, Lambda,
-DynamoDB, SNS, API Gateway, CloudFront) is a fully managed, public-endpoint
-AWS service reached over IAM — none of them require a private subnet, ENI,
-or NAT Gateway. 
+Every service used (S3, SQS, Lambda, DynamoDB, SNS, API Gateway, CloudFront) is a fully managed, public-endpoint
+AWS service reached over IAM — none of them require a private subnet, ENI, or NAT Gateway. 
 
 A VPC would only become necessary if a future component
-(e.g. RDS, ElastiCache, or an internal-only service) required private
-networking.
+(e.g. RDS, ElastiCache, or an internal-only service) required private networking.
 
 ## Deployment / Setup Instructions
 
@@ -114,9 +111,8 @@ several resources reference each other's ARNs):
 
 - **CloudFront could not be deployed.**
 <img width="1397" height="732" alt="Screenshot 2026-08-14 215047" src="https://github.com/user-attachments/assets/1cd82f26-a7d9-486c-9d76-656352494094" />
-  `cloudfront:CreateOriginAccessControl`
-  and `cloudfront:CreateDistribution` are both restricted in this AWS
-  Academy Learner Lab's IAM policy.
+
+  `cloudfront:CreateOriginAccessControl` and `cloudfront:CreateDistribution` are both restricted in this AWS Academy Learner Lab's IAM policy.
 
   The architecture includes CloudFront as
   the intended production delivery/caching layer; in this environment,
